@@ -56,35 +56,35 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  /* Earthy refined palette: Background is a warm sand, primary is deep forest green, accents are warm terracotta */
-  --background: 40 20% 97%; /* #F9F8F6 */
-  --foreground: 140 10% 12%; /* #1A201A */
+  /* Sage and stone palette: muted sage green primary, deep teal hover, light sage cards, warm white background, deep teal text, golden accent */
+  --background: 60 17% 98%; /* #FAFAF8 - Warm white */
+  --foreground: 174 21% 14%; /* #1C2B2A - Text */
 
-  --border: 40 10% 88%; /* #E4E1DB */
-  --input: 40 10% 88%;
-  --ring: 140 35% 18%;
+  --border: 167 20% 88%; /* derived from light sage */
+  --input: 167 20% 88%;
+  --ring: 169 49% 33%; /* Primary sage */
 
   --card: 0 0% 100%;
-  --card-foreground: 140 10% 12%;
-  --card-border: 40 10% 88%;
+  --card-foreground: 174 21% 14%;
+  --card-border: 167 20% 88%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 140 10% 12%;
-  --popover-border: 40 10% 88%;
+  --popover-foreground: 174 21% 14%;
+  --popover-border: 167 20% 88%;
 
-  --primary: 140 35% 18%; /* #1E3F30 */
-  --primary-foreground: 40 20% 97%;
-  
-  --secondary: 40 15% 92%; /* #EBE8E2 */
-  --secondary-foreground: 140 35% 18%;
+  --primary: 169 49% 33%; /* #2A7D6F - Primary sage */
+  --primary-foreground: 60 17% 98%;
 
-  --muted: 40 15% 92%;
-  --muted-foreground: 140 5% 45%;
+  --secondary: 167 32% 94%; /* #EAF4F2 - Light sage */
+  --secondary-foreground: 171 50% 25%; /* Deep */
 
-  --accent: 12 76% 61%; /* #E65A4B - Terracotta */
-  --accent-foreground: 0 0% 100%;
+  --muted: 167 32% 94%;
+  --muted-foreground: 174 14% 36%;
 
-  --destructive: 0 84% 60%;
+  --accent: 40 79% 56%; /* #E8A838 - Golden accent */
+  --accent-foreground: 174 21% 14%;
+
+  --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
 
   --app-font-sans: 'Inter', sans-serif;
@@ -92,7 +92,7 @@
   --app-font-mono: Menlo, monospace;
   --radius: 0.5rem;
 
-  --shadow-color: 140 20% 10%;
+  --shadow-color: 174 21% 14%;
   --shadow-2xs: 0px 2px 0px 0px hsl(var(--shadow-color) / 0.05);
   --shadow-xs: 0px 2px 0px 0px hsl(var(--shadow-color) / 0.05);
   --shadow-sm: 0px 2px 0px 0px hsl(var(--shadow-color) / 0.05), 0px 1px 2px -1px hsl(var(--shadow-color) / 0.05);
@@ -116,32 +116,32 @@
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
 
-  --background: 140 30% 8%; /* #0E1A14 */
-  --foreground: 40 20% 95%;
+  --background: 174 21% 10%; /* deep sage night */
+  --foreground: 167 32% 94%;
 
-  --border: 140 20% 20%;
-  --input: 140 20% 20%;
-  --ring: 140 35% 50%;
+  --border: 174 15% 22%;
+  --input: 174 15% 22%;
+  --ring: 169 49% 45%;
 
-  --card: 140 25% 10%;
-  --card-foreground: 40 20% 95%;
-  --card-border: 140 20% 20%;
+  --card: 174 21% 13%;
+  --card-foreground: 167 32% 94%;
+  --card-border: 174 15% 22%;
 
-  --popover: 140 25% 10%;
-  --popover-foreground: 40 20% 95%;
-  --popover-border: 140 20% 20%;
+  --popover: 174 21% 13%;
+  --popover-foreground: 167 32% 94%;
+  --popover-border: 174 15% 22%;
 
-  --primary: 40 20% 95%; 
-  --primary-foreground: 140 30% 8%;
-  
-  --secondary: 140 20% 16%;
-  --secondary-foreground: 40 20% 95%;
+  --primary: 169 49% 45%; /* lifted sage for dark */
+  --primary-foreground: 174 21% 10%;
 
-  --muted: 140 20% 16%;
-  --muted-foreground: 140 10% 60%;
+  --secondary: 174 18% 18%;
+  --secondary-foreground: 167 32% 94%;
 
-  --accent: 12 76% 61%;
-  --accent-foreground: 0 0% 100%;
+  --muted: 174 18% 18%;
+  --muted-foreground: 167 12% 65%;
+
+  --accent: 40 79% 56%; /* #E8A838 */
+  --accent-foreground: 174 21% 10%;
 
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
