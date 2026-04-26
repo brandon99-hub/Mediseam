@@ -163,7 +163,7 @@ export default function Home() {
                         delay: 0.05 * i,
                         ease: [0.16, 1, 0.3, 1],
                       }}
-                      className="font-bold tracking-tighter text-[clamp(5rem,18vw,16rem)]"
+                      className="font-bold tracking-tighter text-[clamp(3rem,10vw,9rem)]"
                       style={{ display: "inline-block" }}
                     >
                       {ch}
