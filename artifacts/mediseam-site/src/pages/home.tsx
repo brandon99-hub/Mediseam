@@ -118,14 +118,14 @@ export default function Home() {
         </section>
 
         {/* Big Statement Section */}
-        <section className="relative overflow-hidden bg-[hsl(174_21%_10%)] text-primary-foreground">
+        <section className="relative overflow-hidden bg-[hsl(171_50%_25%)] text-primary-foreground">
           {/* Soft radial wash */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-60"
+            className="pointer-events-none absolute inset-0 opacity-70"
             style={{
               background:
-                "radial-gradient(60% 50% at 50% 0%, hsl(169 49% 33% / 0.35), transparent 70%)",
+                "radial-gradient(60% 50% at 50% 0%, hsl(169 49% 40% / 0.5), transparent 70%)",
             }}
           />
 
