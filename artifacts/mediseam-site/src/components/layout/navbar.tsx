@@ -29,16 +29,20 @@ export function Navbar() {
       className={cn(
         "fixed top-0 inset-x-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm py-3"
-          : "bg-transparent py-5"
+          ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm py-1 overflow-visible"
+          : "bg-transparent py-2 overflow-visible"
       )}
     >
-      <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="h-8 w-8 rounded-md bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg">
-            M
-          </div>
-          <span className="font-bold text-xl tracking-tight text-foreground">MediSeam</span>
+      <div className="container mx-auto px-4 md:px-6 flex items-center justify-between h-14 overflow-visible">
+        <Link href="/" className="relative flex items-center gap-2 group h-full overflow-visible">
+          <img 
+            src="/Logo-2.png" 
+            alt="MediSeam Logo" 
+            className={cn(
+              "absolute left-0 w-auto object-contain drop-shadow-lg transition-all duration-500 max-w-none",
+              scrolled ? "h-10 top-2" : "h-24 top-0"
+            )} 
+          />
         </Link>
 
         {/* Desktop Nav */}
