@@ -6,6 +6,7 @@ import { Link } from "wouter";
 import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
 import { Shield, Globe, Eye, ArrowRight, Building2, ChevronDown } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { HospitalSignupModal } from "@/components/hospital-signup-modal";
 
 function CountUp({
   to,
@@ -96,9 +97,13 @@ export default function Home() {
               </motion.p>
               
               <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                <Button size="lg" className="text-base h-12 px-8" asChild>
-                  <Link href="/contact">Get Started</Link>
-                </Button>
+                <HospitalSignupModal
+                  trigger={
+                    <Button size="lg" className="text-base h-12 px-8">
+                      Get Started
+                    </Button>
+                  }
+                />
                 <Button
                   size="lg"
                   variant="outline"
@@ -428,9 +433,13 @@ export default function Home() {
               <h2 className="text-3xl md:text-5xl font-bold mb-10 text-balance leading-tight">
                 Join the healthcare system that finally works for the patient.
               </h2>
-              <Button size="lg" className="text-lg h-14 px-10 rounded-full" asChild>
-                <Link href="/contact">Get Started</Link>
-              </Button>
+              <HospitalSignupModal
+                trigger={
+                  <Button size="lg" className="text-lg h-14 px-10 rounded-full">
+                    Get Started
+                  </Button>
+                }
+              />
             </motion.div>
           </div>
         </section>
