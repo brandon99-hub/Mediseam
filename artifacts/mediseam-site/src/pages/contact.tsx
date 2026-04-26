@@ -142,7 +142,7 @@ export default function Contact() {
                 </CardHeader>
                 <CardContent className="flex-1">
                   <p className="text-muted-foreground">
-                    Any other questions — patients, press, or anything else.
+                    Any other questions, patients, press, or anything else.
                   </p>
                 </CardContent>
                 <div className="p-6 pt-0 mt-auto">
