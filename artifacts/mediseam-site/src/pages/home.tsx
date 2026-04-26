@@ -31,7 +31,6 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      
       <main className="flex-1">
         {/* Hero Section */}
         <section className="pt-32 pb-20 md:pt-48 md:pb-32 px-4 md:px-6">
@@ -152,7 +151,7 @@ export default function Home() {
                 transition={{ duration: 0.8 }}
                 className="lg:col-span-7 relative"
               >
-                <div className="flex items-start gap-3 md:gap-5 leading-none">
+                <div className="flex items-start gap-3 md:gap-5 text-[15px]">
                   {"12,000".split("").map((ch, i) => (
                     <motion.span
                       key={i}
@@ -320,7 +319,6 @@ export default function Home() {
         </section>
 
       </main>
-      
       <Footer />
     </div>
   );
