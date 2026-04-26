@@ -13,7 +13,7 @@ export function Footer() {
               <span className="font-bold text-xl tracking-tight text-background">MediSeam</span>
             </Link>
             <p className="text-background/70 text-lg max-w-sm">
-              Your records belong to you — not your hospital.
+              Your records everywhere you go.
             </p>
           </div>
           
