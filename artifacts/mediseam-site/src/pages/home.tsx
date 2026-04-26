@@ -179,6 +179,22 @@ export default function Home() {
                 >
                   hospitals, clinics, and dispensaries across Kenya.
                 </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.7, delay: 0.5 }}
+                  className="mt-10 md:mt-12 max-w-2xl"
+                >
+                  <div className="flex gap-5 md:gap-6">
+                    <span className="w-1 shrink-0 rounded-full bg-accent" />
+                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold leading-[1.15] tracking-tight text-balance">
+                      MediSeam is changing that{" "}
+                      <span className="text-accent">starting today.</span>
+                    </h2>
+                  </div>
+                </motion.div>
               </motion.div>
 
               {/* Disconnected node grid + zero callout */}
@@ -229,23 +245,6 @@ export default function Home() {
                 </div>
               </motion.div>
             </div>
-
-            {/* Closing pull-quote */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="mt-20 md:mt-28 max-w-4xl"
-            >
-              <div className="flex gap-6 md:gap-8">
-                <span className="w-1 shrink-0 rounded-full bg-accent" />
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold leading-[1.1] tracking-tight text-balance">
-                  MediSeam is changing that{" "}
-                  <span className="text-accent">— starting today.</span>
-                </h2>
-              </div>
-            </motion.div>
           </div>
         </section>
 
