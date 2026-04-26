@@ -3,8 +3,41 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { motion } from "framer-motion";
+import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
 import { Shield, Globe, Eye, ArrowRight } from "lucide-react";
+import { useEffect, useRef } from "react";
+
+function CountUp({
+  to,
+  duration = 1.8,
+  className,
+}: {
+  to: number;
+  duration?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const count = useMotionValue(0);
+  const formatted = useTransform(count, (v) =>
+    Math.round(v).toLocaleString("en-US"),
+  );
+
+  useEffect(() => {
+    if (!inView) return;
+    const controls = animate(count, to, {
+      duration,
+      ease: [0.16, 1, 0.3, 1],
+    });
+    return () => controls.stop();
+  }, [inView, to, duration, count]);
+
+  return (
+    <motion.span ref={ref} className={className}>
+      {formatted}
+    </motion.span>
+  );
+}
 
 export default function Home() {
   usePageTitle("MediSeam — Your records, everywhere you go.");
@@ -151,24 +184,12 @@ export default function Home() {
                 transition={{ duration: 0.8 }}
                 className="lg:col-span-7 lg:self-start relative"
               >
-                <div className="flex items-start gap-3 md:gap-5 text-[15px]">
-                  {"12,000".split("").map((ch, i) => (
-                    <motion.span
-                      key={i}
-                      initial={{ opacity: 0, y: 60 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-80px" }}
-                      transition={{
-                        duration: 0.7,
-                        delay: 0.05 * i,
-                        ease: [0.16, 1, 0.3, 1],
-                      }}
-                      className="font-bold tracking-tighter text-[clamp(3rem,10vw,9rem)]"
-                      style={{ display: "inline-block" }}
-                    >
-                      {ch}
-                    </motion.span>
-                  ))}
+                <div className="leading-none">
+                  <CountUp
+                    to={12000}
+                    duration={2}
+                    className="font-bold tracking-tighter text-[clamp(3rem,10vw,9rem)] tabular-nums"
+                  />
                 </div>
                 <motion.p
                   initial={{ opacity: 0, y: 16 }}
