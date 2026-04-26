@@ -132,7 +132,7 @@ export default function Home() {
                 <h3 className="text-2xl font-bold mb-4">Works everywhere</h3>
                 <p className="text-muted-foreground leading-relaxed">
                   Any hospital. Any clinic. Any doctor. If you choose to share your records 
-                  they are there instantly — no paperwork, no repeating yourself.
+                  they are there instantly. No paperwork, no repeating yourself.
                 </p>
               </motion.div>
 
