@@ -119,22 +119,133 @@ export default function Home() {
         </section>
 
         {/* Big Statement Section */}
-        <section className="py-32 px-4 md:px-6 bg-primary text-primary-foreground relative overflow-hidden">
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10"></div>
-          <div className="container mx-auto max-w-4xl relative z-10">
+        <section className="relative overflow-hidden bg-[hsl(174_21%_10%)] text-primary-foreground">
+          {/* Soft radial wash */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-60"
+            style={{
+              background:
+                "radial-gradient(60% 50% at 50% 0%, hsl(169 49% 33% / 0.35), transparent 70%)",
+            }}
+          />
+
+          <div className="container mx-auto max-w-7xl px-4 md:px-6 py-28 md:py-40 relative z-10">
+            {/* Eyebrow */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center gap-3 text-xs md:text-sm uppercase tracking-[0.2em] text-primary-foreground/60 mb-12 md:mb-16"
             >
-              <h2 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-                12,000 hospitals in Kenya. <br className="hidden md:block" />
-                <span className="text-primary-foreground/60">Zero of them share your records.</span>
-              </h2>
-              <p className="text-3xl md:text-4xl font-medium text-accent">
-                MediSeam is changing that — starting today.
-              </p>
+              <span className="h-px w-10 bg-accent" />
+              The state of Kenyan healthcare
+            </motion.div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-end">
+              {/* Massive number */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.8 }}
+                className="lg:col-span-7 relative"
+              >
+                <div className="flex items-start gap-3 md:gap-5 leading-none">
+                  {"12,000".split("").map((ch, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 0, y: 60 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{
+                        duration: 0.7,
+                        delay: 0.05 * i,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
+                      className="font-bold tracking-tighter text-[clamp(5rem,18vw,16rem)]"
+                      style={{ display: "inline-block" }}
+                    >
+                      {ch}
+                    </motion.span>
+                  ))}
+                </div>
+                <motion.p
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="mt-6 text-lg md:text-xl text-primary-foreground/70 max-w-md"
+                >
+                  hospitals, clinics, and dispensaries across Kenya.
+                </motion.p>
+              </motion.div>
+
+              {/* Disconnected node grid + zero callout */}
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="lg:col-span-5"
+              >
+                <div className="rounded-2xl border border-primary-foreground/10 bg-primary-foreground/[0.03] backdrop-blur-sm p-6 md:p-8">
+                  <div className="flex items-baseline justify-between mb-6">
+                    <span className="text-xs uppercase tracking-[0.2em] text-primary-foreground/50">
+                      Records shared between them
+                    </span>
+                  </div>
+                  <div className="flex items-end gap-4">
+                    <span className="text-7xl md:text-8xl font-bold leading-none text-accent">
+                      0
+                    </span>
+                    <span className="pb-3 text-base md:text-lg text-primary-foreground/70">
+                      Not one.
+                    </span>
+                  </div>
+
+                  {/* Grid of isolated nodes */}
+                  <div
+                    aria-hidden
+                    className="mt-8 grid grid-cols-12 gap-1.5"
+                  >
+                    {Array.from({ length: 12 * 6 }).map((_, i) => (
+                      <motion.span
+                        key={i}
+                        initial={{ opacity: 0, scale: 0.6 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true, margin: "-80px" }}
+                        transition={{
+                          duration: 0.25,
+                          delay: 0.3 + (i % 12) * 0.015 + Math.floor(i / 12) * 0.04,
+                        }}
+                        className="block aspect-square rounded-full bg-primary-foreground/15"
+                      />
+                    ))}
+                  </div>
+                  <p className="mt-5 text-sm text-primary-foreground/50">
+                    Every dot is a hospital working alone. Every patient starts over.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Closing pull-quote */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="mt-20 md:mt-28 max-w-4xl"
+            >
+              <div className="flex gap-6 md:gap-8">
+                <span className="w-1 shrink-0 rounded-full bg-accent" />
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold leading-[1.1] tracking-tight text-balance">
+                  MediSeam is changing that{" "}
+                  <span className="text-accent">— starting today.</span>
+                </h2>
+              </div>
             </motion.div>
           </div>
         </section>
