@@ -83,7 +83,7 @@ export default function Contact() {
               Let's talk.
             </motion.h1>
             <motion.p variants={fadeInUp} className="text-xl md:text-2xl text-muted-foreground text-balance">
-              Whether you are a hospital exploring a partnership, an investor, or a patient with a question — we want to hear from you.
+              Whether you are a hospital exploring a partnership, an investor, or a patient with a question, we want to hear from you.
             </motion.p>
           </motion.div>
 
