@@ -4,7 +4,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { HospitalSignupModal } from "@/components/hospital-signup-modal";
+import { GetStartedFlow } from "@/components/get-started-flow";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -58,7 +58,7 @@ export function Navbar() {
         </nav>
 
         <div className="hidden md:flex items-center">
-          <HospitalSignupModal trigger={<Button>Get Started</Button>} />
+          <GetStartedFlow trigger={<Button>Get Started</Button>} />
         </div>
 
         {/* Mobile Nav */}
@@ -86,7 +86,7 @@ export function Navbar() {
                 ))}
               </nav>
               <div className="mt-8 flex flex-col gap-4">
-                <HospitalSignupModal
+                <GetStartedFlow
                   trigger={<Button className="w-full">Get Started</Button>}
                 />
               </div>

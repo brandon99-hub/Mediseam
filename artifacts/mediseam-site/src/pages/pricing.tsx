@@ -8,6 +8,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { GetStartedFlow } from "@/components/get-started-flow";
 
 export default function Pricing() {
   usePageTitle("Pricing — MediSeam");
@@ -92,9 +93,14 @@ export default function Pricing() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full" variant="outline" asChild>
-                    <Link href="/contact">Get Started</Link>
-                  </Button>
+                  <GetStartedFlow
+                    defaultPlanId="starter"
+                    trigger={
+                      <Button className="w-full" variant="outline">
+                        Get Started
+                      </Button>
+                    }
+                  />
                 </CardFooter>
               </Card>
             </motion.div>
@@ -145,9 +151,14 @@ export default function Pricing() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground border-none" asChild>
-                    <Link href="/contact">Get Started</Link>
-                  </Button>
+                  <GetStartedFlow
+                    defaultPlanId="growth"
+                    trigger={
+                      <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground border-none">
+                        Get Started
+                      </Button>
+                    }
+                  />
                 </CardFooter>
               </Card>
             </motion.div>
