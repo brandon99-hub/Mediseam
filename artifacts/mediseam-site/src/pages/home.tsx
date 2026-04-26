@@ -10,17 +10,20 @@ import { useEffect, useRef } from "react";
 function CountUp({
   to,
   duration = 1.8,
+  prefix = "",
   className,
 }: {
   to: number;
   duration?: number;
+  prefix?: string;
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const count = useMotionValue(0);
-  const formatted = useTransform(count, (v) =>
-    Math.round(v).toLocaleString("en-US"),
+  const formatted = useTransform(
+    count,
+    (v) => `${prefix}${Math.round(v).toLocaleString("en-US")}`,
   );
 
   useEffect(() => {
@@ -188,6 +191,7 @@ export default function Home() {
                   <CountUp
                     to={12000}
                     duration={2}
+                    prefix="+"
                     className="font-bold tracking-tighter text-[clamp(3rem,10vw,9rem)] tabular-nums"
                   />
                 </div>
