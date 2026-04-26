@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
-import { Shield, Globe, Eye, ArrowRight, Building2 } from "lucide-react";
+import { Shield, Globe, Eye, ArrowRight, Building2, ChevronDown } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 function CountUp({
@@ -99,8 +99,14 @@ export default function Home() {
                 <Button size="lg" className="text-base h-12 px-8" asChild>
                   <Link href="/contact">Get Started</Link>
                 </Button>
-                <Button size="lg" variant="outline" className="text-base h-12 px-8" onClick={scrollToHowItWorks}>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-base h-12 px-8 group"
+                  onClick={scrollToHowItWorks}
+                >
                   See How It Works
+                  <ChevronDown className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
                 </Button>
               </motion.div>
             </motion.div>
