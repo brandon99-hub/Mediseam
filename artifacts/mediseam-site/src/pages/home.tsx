@@ -149,7 +149,7 @@ export default function Home() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.8 }}
-                className="lg:col-span-7 relative"
+                className="lg:col-span-7 lg:self-start relative"
               >
                 <div className="flex items-start gap-3 md:gap-5 text-[15px]">
                   {"12,000".split("").map((ch, i) => (
