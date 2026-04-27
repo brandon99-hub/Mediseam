@@ -12,7 +12,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { motion } from "framer-motion";
-import { Building, TrendingUp, HelpCircle, MapPin, Mail } from "lucide-react";
+import { Building, TrendingUp, HelpCircle, MapPin, Mail, Loader2 } from "lucide-react";
+import { useSubmitContactForm } from "@workspace/api-client-react";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -39,13 +40,26 @@ export default function Contact() {
     },
   });
 
+  const { mutate: submitForm, isPending } = useSubmitContactForm();
+  
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    toast({
-      title: "Thanks — we'll be in touch.",
-      description: "Your message has been sent successfully. We'll get back to you shortly.",
+    submitForm({ data: values }, {
+      onSuccess: () => {
+        toast({
+          title: "Thanks — we'll be in touch.",
+          description: "Your message has been sent successfully. We'll get back to you shortly.",
+        });
+        form.reset();
+      },
+      onError: (error) => {
+        toast({
+          title: "Error sending message",
+          description: "Something went wrong. Please try again or email us directly.",
+          variant: "destructive",
+        });
+        console.error(error);
+      }
     });
-    form.reset();
   };
 
   const scrollToForm = () => {
@@ -54,7 +68,7 @@ export default function Contact() {
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } }
   };
 
   const staggerContainer = {
@@ -246,7 +260,8 @@ export default function Contact() {
                       )}
                     />
                     
-                    <Button type="submit" size="lg" className="w-full md:w-auto">
+                    <Button type="submit" size="lg" className="w-full md:w-auto" disabled={isPending}>
+                      {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       Send message
                     </Button>
                   </form>

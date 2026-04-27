@@ -28,9 +28,11 @@ import {
   ShieldCheck,
   Lock,
   CreditCard,
+  Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRegisterHospital } from "@workspace/api-client-react";
 
 export type PlanId = "starter" | "growth" | "enterprise";
 
@@ -156,14 +158,33 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
     setStep("register");
   };
 
+  const { mutate: registerHospital, isPending } = useRegisterHospital();
+
   const handleRegister = (values: RegisterValues) => {
-    console.log({ ...values, email, plan: planId });
-    toast({
-      title: "Account created.",
-      description:
-        "Welcome to MediSeam. Our team will be in touch with onboarding details.",
+    registerHospital({
+      data: {
+        ...values,
+        email,
+        plan: planId || "starter"
+      }
+    }, {
+      onSuccess: () => {
+        toast({
+          title: "Account created.",
+          description:
+            "Welcome to MediSeam. Our team will be in touch with onboarding details.",
+        });
+        setOpen(false);
+      },
+      onError: (error) => {
+        toast({
+          title: "Registration failed",
+          description: "Something went wrong. Please try again or contact us.",
+          variant: "destructive"
+        });
+        console.error(error);
+      }
     });
-    setOpen(false);
   };
 
   const handleBack = () => {
@@ -523,7 +544,8 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
                     >
                       <ArrowLeft className="h-4 w-4 mr-2" /> Back
                     </Button>
-                    <Button type="submit" size="lg" className="w-full sm:w-auto">
+                    <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={isPending}>
+                      {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       Create hospital account
                     </Button>
                   </DialogFooter>

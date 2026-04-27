@@ -24,6 +24,44 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /contact:
+    post:
+      operationId: submitContactForm
+      tags: [contact]
+      summary: Submit contact form
+      description: Sends contact form data via email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactForm"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+  /hospitals:
+    post:
+      operationId: registerHospital
+      tags: [hospital]
+      summary: Register a new hospital
+      description: Creates a new hospital account and sends notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HospitalRegistration"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +71,57 @@ components:
           type: string
       required:
         - status
+    ContactForm:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        organisation:
+          type: string
+        type:
+          type: string
+        message:
+          type: string
+      required:
+        - name
+        - email
+        - type
+        - message
+    HospitalRegistration:
+      type: object
+      properties:
+        hospitalName:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        fullName:
+          type: string
+        department:
+          type: string
+        licenseNumber:
+          type: string
+        email:
+          type: string
+        plan:
+          type: string
+      required:
+        - hospitalName
+        - username
+        - password
+        - fullName
+        - department
+        - email
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - success
 

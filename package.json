@@ -12,13 +12,20 @@
     "start": "concurrently \"npm run dev -w @workspace/api-server\" \"npm run dev -w @workspace/mediseam-site\"",
     "build": "npm run typecheck && npm run build --workspaces --if-present",
     "typecheck:libs": "tsc --build",
-    "typecheck": "npm run typecheck:libs && npm run typecheck --workspaces --if-present"
+    "typecheck": "npm run typecheck:libs && npm run typecheck --workspaces --if-present",
+    "db:push": "npm run push -w @workspace/db",
+    "db:studio": "npm run studio -w @workspace/db",
+    "db:generate": "npm run generate -w @workspace/db"
   },
   "private": true,
   "devDependencies": {
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "prettier": "^3.8.1",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.2",
+    "zod": "^3.23.0"
+  },
+  "dependencies": {
+    "nodemailer": "^8.0.6"
   }
 }

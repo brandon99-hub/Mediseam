@@ -5,17 +5,6 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
-export interface HealthStatus {
-  status: string;
-}
-
-export interface ContactForm {
-  name: string;
-  email: string;
-  organisation?: string;
-  type: string;
-  message: string;
-}
 
 export interface HospitalRegistration {
   hospitalName: string;
@@ -27,9 +16,3 @@ export interface HospitalRegistration {
   email: string;
   plan?: string;
 }
-
-export interface SuccessResponse {
-  success: boolean;
-  message?: string;
-}
-
