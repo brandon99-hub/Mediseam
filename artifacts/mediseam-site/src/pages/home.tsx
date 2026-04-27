@@ -76,7 +76,7 @@ export default function Home() {
         {/* Hero Section */}
         <section className="pt-32 pb-20 md:pt-48 md:pb-32 px-4 md:px-6">
           <div className="container mx-auto max-w-5xl text-center">
-            <motion.div 
+            <motion.div
               initial="hidden"
               animate="visible"
               variants={staggerContainer}
@@ -86,20 +86,20 @@ export default function Home() {
                 <span className="flex h-2 w-2 rounded-full bg-accent mr-2"></span>
                 The new standard for Kenyan healthcare
               </motion.div>
-              
+
               <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl font-bold tracking-tight text-foreground mb-6 max-w-4xl text-balance">
-                Your records, everywhere you go.
+                What if the doctor already knew your story?
               </motion.h1>
-              
+
               <motion.p variants={fadeInUp} className="text-2xl md:text-3xl font-medium text-foreground/80 mb-8 max-w-2xl text-balance">
                 Your records, everywhere you go.
               </motion.p>
-              
+
               <motion.p variants={fadeInUp} className="text-lg text-muted-foreground mb-12 max-w-3xl leading-relaxed text-balance">
-                Every time you visit a new hospital you start from scratch. Your history stays behind. 
+                Every time you visit a new hospital you start from scratch. Your history stays behind.
                 MediSeam changes that. One secure health identity that follows you everywhere you go.
               </motion.p>
-              
+
               <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                 <GetStartedFlow
                   trigger={
@@ -125,7 +125,7 @@ export default function Home() {
         {/* Value Blocks Section */}
         <section id="how-it-works" className="py-24 bg-card px-4 md:px-6 border-y border-border">
           <div className="container mx-auto">
-            <motion.div 
+            <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
@@ -138,7 +138,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold mb-4">You own your records</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Your medical history belongs to you. Not the hospital that created it. 
+                  Your medical history belongs to you. Not the hospital that created it.
                   You decide who sees it, when, and for how long.
                 </p>
               </motion.div>
@@ -149,7 +149,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold mb-4">Works everywhere</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Any hospital. Any clinic. Any doctor. If you choose to share your records 
+                  Any hospital. Any clinic. Any doctor. If you choose to share your records
                   they are there instantly. No paperwork, no repeating yourself.
                 </p>
               </motion.div>
@@ -160,7 +160,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold mb-4">Nothing is hidden</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Every time someone accesses your records it is logged permanently. 
+                  Every time someone accesses your records it is logged permanently.
                   You can see exactly who looked at your data and when. Always.
                 </p>
               </motion.div>
@@ -292,7 +292,7 @@ export default function Home() {
         <section className="py-24 px-4 md:px-6 bg-background">
           <div className="container mx-auto max-w-6xl">
             <div className="flex flex-col md:flex-row gap-12 items-center">
-              <motion.div 
+              <motion.div
                 className="flex-1"
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
