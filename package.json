@@ -9,8 +9,9 @@
     "scripts"
   ],
   "scripts": {
-    "start": "concurrently \"npm run dev -w @workspace/api-server\" \"npm run dev -w @workspace/mediseam-site\"",
-    "build": "npm run typecheck && npm run build --workspaces --if-present",
+    "start": "npm run start -w @workspace/api-server",
+    "dev": "concurrently \"npm run dev -w @workspace/api-server\" \"npm run dev -w @workspace/mediseam-site\"",
+    "build": "npm run build --workspaces --if-present",
     "typecheck:libs": "tsc --build",
     "typecheck": "npm run typecheck:libs && npm run typecheck --workspaces --if-present",
     "db:push": "npm run push -w @workspace/db",

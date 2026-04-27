@@ -29,6 +29,23 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use("/api", router);
+
+// Serve static files from mediseam-site dist
+const staticPath = path.resolve(__dirname, "../../mediseam-site/dist/public");
+app.use(express.static(staticPath));
+
+// Handle SPA routing - serve index.html for all non-api routes
+app.get("*", (req, res) => {
+  if (!req.path.startsWith("/api")) {
+    res.sendFile(path.join(staticPath, "index.html"));
+  }
+});
 
 export default app;
