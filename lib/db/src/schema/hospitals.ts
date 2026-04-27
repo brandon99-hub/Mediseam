@@ -5,8 +5,11 @@ import { z } from "zod";
 export const hospitals = pgTable("hospitals", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
+  address: text("address"),
+  contactEmail: text("contact_email"),
   licenseNumber: text("license_number"),
   plan: text("plan").notNull().default("starter"), // starter, growth, enterprise
+  paymentReference: text("payment_reference").unique(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

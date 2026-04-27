@@ -62,8 +62,97 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SuccessResponse"
+  /paystack/initialize:
+    post:
+      operationId: initializePaystack
+      tags: [paystack]
+      summary: Initialize Paystack transaction
+      description: Returns an authorization URL to start a payment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaystackInitialize"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaystackResponse"
+  /users/check-username/{username}:
+    get:
+      operationId: checkUsername
+      tags: [user]
+      summary: Check if a username is available
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsernameCheck"
+  /users/check-email/{email}:
+    get:
+      operationId: checkEmail
+      tags: [user]
+      summary: Check if an email is available
+      parameters:
+        - name: email
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsernameCheck"
 components:
   schemas:
+    UsernameCheck:
+      type: object
+      properties:
+        available:
+          type: boolean
+      required:
+        - available
+    PaystackInitialize:
+      type: object
+      properties:
+        email:
+          type: string
+        plan:
+          type: string
+      required:
+        - email
+        - plan
+    PaystackResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            authorization_url:
+              type: string
+            access_code:
+              type: string
+            reference:
+              type: string
+      required:
+        - success
+        - data
     HealthStatus:
       type: object
       properties:
@@ -108,6 +197,8 @@ components:
           type: string
         plan:
           type: string
+        trxref:
+          type: string
       required:
         - hospitalName
         - username
@@ -115,6 +206,7 @@ components:
         - fullName
         - department
         - email
+        - trxref
     SuccessResponse:
       type: object
       properties:

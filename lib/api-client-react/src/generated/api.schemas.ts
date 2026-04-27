@@ -5,6 +5,26 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+export interface UsernameCheck {
+  available: boolean;
+}
+
+export interface PaystackInitialize {
+  email: string;
+  plan: string;
+}
+
+export type PaystackResponseData = {
+  authorization_url?: string;
+  access_code?: string;
+  reference?: string;
+};
+
+export interface PaystackResponse {
+  success: boolean;
+  data: PaystackResponseData;
+}
+
 export interface HealthStatus {
   status: string;
 }
@@ -26,6 +46,7 @@ export interface HospitalRegistration {
   licenseNumber?: string;
   email: string;
   plan?: string;
+  trxref: string;
 }
 
 export interface SuccessResponse {

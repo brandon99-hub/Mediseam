@@ -23,7 +23,10 @@ import type {
   ContactForm,
   HealthStatus,
   HospitalRegistration,
-  SuccessResponse
+  PaystackInitialize,
+  PaystackResponse,
+  SuccessResponse,
+  UsernameCheck
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -259,4 +262,230 @@ export const useRegisterHospital = <TError = ErrorType<unknown>,
       > => {
       return useMutation(getRegisterHospitalMutationOptions(options));
     }
+
+/**
+ * Returns an authorization URL to start a payment
+ * @summary Initialize Paystack transaction
+ */
+export const getInitializePaystackUrl = () => {
+
+
+
+
+  return `/api/paystack/initialize`
+}
+
+export const initializePaystack = async (paystackInitialize: PaystackInitialize, options?: RequestInit): Promise<PaystackResponse> => {
+
+  return customFetch<PaystackResponse>(getInitializePaystackUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      paystackInitialize,)
+  }
+);}
+
+
+
+
+export const getInitializePaystackMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof initializePaystack>>, TError,{data: BodyType<PaystackInitialize>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof initializePaystack>>, TError,{data: BodyType<PaystackInitialize>}, TContext> => {
+
+const mutationKey = ['initializePaystack'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof initializePaystack>>, {data: BodyType<PaystackInitialize>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  initializePaystack(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type InitializePaystackMutationResult = NonNullable<Awaited<ReturnType<typeof initializePaystack>>>
+    export type InitializePaystackMutationBody = BodyType<PaystackInitialize>
+    export type InitializePaystackMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Initialize Paystack transaction
+ */
+export const useInitializePaystack = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof initializePaystack>>, TError,{data: BodyType<PaystackInitialize>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof initializePaystack>>,
+        TError,
+        {data: BodyType<PaystackInitialize>},
+        TContext
+      > => {
+      return useMutation(getInitializePaystackMutationOptions(options));
+    }
+
+/**
+ * @summary Check if a username is available
+ */
+export const getCheckUsernameUrl = (username: string,) => {
+
+
+
+
+  return `/api/users/check-username/${username}`
+}
+
+export const checkUsername = async (username: string, options?: RequestInit): Promise<UsernameCheck> => {
+
+  return customFetch<UsernameCheck>(getCheckUsernameUrl(username),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getCheckUsernameQueryKey = (username: string,) => {
+    return [
+    `/api/users/check-username/${username}`
+    ] as const;
+    }
+
+
+export const getCheckUsernameQueryOptions = <TData = Awaited<ReturnType<typeof checkUsername>>, TError = ErrorType<unknown>>(username: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof checkUsername>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCheckUsernameQueryKey(username);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof checkUsername>>> = ({ signal }) => checkUsername(username, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(username), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof checkUsername>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type CheckUsernameQueryResult = NonNullable<Awaited<ReturnType<typeof checkUsername>>>
+export type CheckUsernameQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Check if a username is available
+ */
+
+export function useCheckUsername<TData = Awaited<ReturnType<typeof checkUsername>>, TError = ErrorType<unknown>>(
+ username: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof checkUsername>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getCheckUsernameQueryOptions(username,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+/**
+ * @summary Check if an email is available
+ */
+export const getCheckEmailUrl = (email: string,) => {
+
+
+
+
+  return `/api/users/check-email/${email}`
+}
+
+export const checkEmail = async (email: string, options?: RequestInit): Promise<UsernameCheck> => {
+
+  return customFetch<UsernameCheck>(getCheckEmailUrl(email),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getCheckEmailQueryKey = (email: string,) => {
+    return [
+    `/api/users/check-email/${email}`
+    ] as const;
+    }
+
+
+export const getCheckEmailQueryOptions = <TData = Awaited<ReturnType<typeof checkEmail>>, TError = ErrorType<unknown>>(email: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof checkEmail>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCheckEmailQueryKey(email);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof checkEmail>>> = ({ signal }) => checkEmail(email, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(email), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof checkEmail>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type CheckEmailQueryResult = NonNullable<Awaited<ReturnType<typeof checkEmail>>>
+export type CheckEmailQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Check if an email is available
+ */
+
+export function useCheckEmail<TData = Awaited<ReturnType<typeof checkEmail>>, TError = ErrorType<unknown>>(
+ email: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof checkEmail>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getCheckEmailQueryOptions(email,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
 

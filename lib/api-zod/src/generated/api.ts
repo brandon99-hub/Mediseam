@@ -47,12 +47,56 @@ export const RegisterHospitalBody = zod.object({
   "department": zod.string(),
   "licenseNumber": zod.string().optional(),
   "email": zod.string(),
-  "plan": zod.string().optional()
+  "plan": zod.string().optional(),
+  "trxref": zod.string()
 })
 
 export const RegisterHospitalResponse = zod.object({
   "success": zod.boolean(),
   "message": zod.string().optional()
+})
+
+
+/**
+ * Returns an authorization URL to start a payment
+ * @summary Initialize Paystack transaction
+ */
+export const InitializePaystackBody = zod.object({
+  "email": zod.string(),
+  "plan": zod.string()
+})
+
+export const InitializePaystackResponse = zod.object({
+  "success": zod.boolean(),
+  "data": zod.object({
+  "authorization_url": zod.string().optional(),
+  "access_code": zod.string().optional(),
+  "reference": zod.string().optional()
+})
+})
+
+
+/**
+ * @summary Check if a username is available
+ */
+export const CheckUsernameParams = zod.object({
+  "username": zod.coerce.string()
+})
+
+export const CheckUsernameResponse = zod.object({
+  "available": zod.boolean()
+})
+
+
+/**
+ * @summary Check if an email is available
+ */
+export const CheckEmailParams = zod.object({
+  "email": zod.coerce.string()
+})
+
+export const CheckEmailResponse = zod.object({
+  "available": zod.boolean()
 })
 
 

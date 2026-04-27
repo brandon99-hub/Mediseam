@@ -1,4 +1,4 @@
-import { useState, useEffect, type ReactNode } from "react";
+import React, { useState, useEffect, type ReactNode } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Form,
   FormControl,
@@ -29,10 +30,15 @@ import {
   Lock,
   CreditCard,
   Loader2,
+  CheckCircle2,
+  XCircle,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRegisterHospital } from "@workspace/api-client-react";
+import { useRegisterHospital, useInitializePaystack, useCheckUsername, useCheckEmail } from "@workspace/api-client-react";
+import { useLocation, useSearch } from "wouter";
 
 export type PlanId = "starter" | "growth" | "enterprise";
 
@@ -99,9 +105,18 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
 
+  useEffect(() => {
+    const search = new URLSearchParams(window.location.search);
+    if (search.get("step") === "register") {
+      setOpen(true);
+    }
+  }, []);
+
   const [step, setStep] = useState<Step>("plan");
   const [planId, setPlanId] = useState<PlanId | null>(null);
   const [email, setEmail] = useState("");
+  const [trxref, setTrxref] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const plan = planId ? PLANS.find((p) => p.id === planId) ?? null : null;
 
@@ -122,17 +137,72 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
     },
   });
 
+  const watchedUsername = registerForm.watch("username");
+  const [debouncedUsername, setDebouncedUsername] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedUsername(watchedUsername);
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [watchedUsername]);
+
+  const { data: availability, isFetching: isCheckingUsername } = useCheckUsername(debouncedUsername, {
+    query: {
+      enabled: debouncedUsername.length >= 3 && step === "register",
+    } as any
+  });
+
+  // Email availability check
+  const [emailInput, setEmailInput] = useState("");
+  const [debouncedEmail, setDebouncedEmail] = useState("");
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (emailInput.includes("@") && emailInput.includes(".")) {
+        setDebouncedEmail(emailInput);
+      }
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [emailInput]);
+
+  const { data: emailStatus, isFetching: isCheckingEmail } = useCheckEmail(
+    debouncedEmail,
+    {
+      query: {
+        enabled: debouncedEmail.length > 5,
+        staleTime: 60000,
+      } as any,
+    }
+  );
+
   useEffect(() => {
     if (open) {
-      if (defaultPlanId) {
+      const search = new URLSearchParams(window.location.search);
+      const stepParam = search.get("step");
+      const emailParam = search.get("email");
+      const planParam = search.get("plan") as PlanId;
+
+      if (stepParam === "register" && emailParam && planParam) {
+        setStep("register");
+        setEmail(emailParam);
+        setPlanId(planParam as PlanId);
+        setTrxref(search.get("trxref") || search.get("reference"));
+      } else if (defaultPlanId) {
         setPlanId(defaultPlanId);
         setStep("payment");
       } else {
         setPlanId(null);
         setStep("plan");
       }
-      setEmail("");
-      paymentForm.reset({ email: "" });
+      
+      if (!emailParam) {
+        setEmail("");
+        paymentForm.reset({ email: "" });
+      } else {
+        paymentForm.reset({ email: emailParam });
+      }
+      
       registerForm.reset({
         hospitalName: "",
         username: "",
@@ -149,13 +219,76 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
     setStep("payment");
   };
 
+  const { mutate: initializePaystack, isPending: isInitializing } = useInitializePaystack();
+
   const handlePayment = (values: PaymentValues) => {
-    setEmail(values.email);
-    toast({
-      title: "Payment confirmed.",
-      description: `Your ${plan?.name} subscription is active. Now create your administrator account.`,
+    initializePaystack({
+      data: {
+        email: values.email,
+        plan: planId || "starter",
+      },
+    }, {
+      onSuccess: (response: any) => {
+        console.log("Paystack Initialization Response:", response);
+        
+        // Ensure we have an access_code before opening the popup
+        const accessCode = response.data?.access_code;
+        
+        if (!accessCode) {
+          toast({
+            title: "Initialization error",
+            description: "Missing payment access code. Please try again.",
+            variant: "destructive"
+          });
+          return;
+        }
+
+        const handler = (window as any).PaystackPop.setup({
+          key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
+          email: values.email,
+          amount: response.data.amount,
+          currency: "KES",
+          access_code: accessCode,
+          onClose: () => {
+            setOpen(true); // Re-open the dialog so they can try again
+            toast({
+              title: "Payment cancelled",
+              description: "The payment window was closed before completion.",
+            });
+          },
+          callback: (response: any) => {
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set("step", "register");
+            newUrl.searchParams.set("email", values.email);
+            newUrl.searchParams.set("plan", planId || "starter");
+            newUrl.searchParams.set("trxref", response.reference);
+            window.history.replaceState({}, "", newUrl.toString());
+
+            setEmail(values.email);
+            setTrxref(response.reference);
+            setStep("register");
+            setOpen(true);
+            
+            toast({
+              title: "Payment successful",
+              description: "Please complete your account setup.",
+            });
+          }
+        });
+        
+        // Close our dialog first to prevent overlay interference
+        setOpen(false);
+        handler.openIframe();
+      },
+      onError: (error) => {
+        toast({
+          title: "Initialization failed",
+          description: "Could not connect to the payment provider. Please try again.",
+          variant: "destructive"
+        });
+        console.error(error);
+      }
     });
-    setStep("register");
   };
 
   const { mutate: registerHospital, isPending } = useRegisterHospital();
@@ -165,21 +298,26 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
       data: {
         ...values,
         email,
-        plan: planId || "starter"
+        plan: planId || "starter",
+        trxref: trxref || "",
       }
     }, {
       onSuccess: () => {
         toast({
-          title: "Account created.",
-          description:
-            "Welcome to MediSeam. Our team will be in touch with onboarding details.",
+          title: "Account created successfully.",
+          description: "Welcome to MediSeam. Redirecting you to the login page...",
         });
+        
+        // Clear the URL parameters
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
         setOpen(false);
       },
-      onError: (error) => {
+      onError: (error: any) => {
+        const message = error.response?.data?.message || "Something went wrong. Please try again or contact us.";
         toast({
           title: "Registration failed",
-          description: "Something went wrong. Please try again or contact us.",
+          description: message,
           variant: "destructive"
         });
         console.error(error);
@@ -201,21 +339,48 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto custom-scrollbar">
         <DialogHeader>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
-            <span className={cn(stepNumber >= 1 && "text-foreground font-medium")}>
-              1. Plan
-            </span>
-            <span className="opacity-40">›</span>
-            <span className={cn(stepNumber >= 2 && "text-foreground font-medium")}>
-              2. Payment
-            </span>
-            <span className="opacity-40">›</span>
-            <span className={cn(stepNumber >= 3 && "text-foreground font-medium")}>
-              3. Account
-            </span>
-          </div>
+          {/* Modern Step Indicator */}
+        <div className="flex items-center justify-between mb-8 max-w-sm mx-auto">
+          {[
+            { id: "plan", label: "Plan", num: 1 },
+            { id: "payment", label: "Payment", num: 2 },
+            { id: "register", label: "Account", num: 3 },
+          ].map((s, idx) => (
+            <React.Fragment key={s.id}>
+              <div className="flex flex-col items-center gap-2">
+                <div
+                  className={cn(
+                    "w-8 h-8 rounded-full flex items-center justify-center text-xs border-2 transition-all duration-300",
+                    step === s.id
+                      ? "bg-primary border-primary text-primary-foreground font-bold scale-110 shadow-sm"
+                      : (idx < ["plan", "payment", "register"].indexOf(step))
+                      ? "bg-primary/20 border-primary/20 text-primary"
+                      : "border-muted-foreground/30 text-muted-foreground"
+                  )}
+                >
+                  {idx < ["plan", "payment", "register"].indexOf(step) ? (
+                    <CheckCircle2 className="h-4 w-4" />
+                  ) : (
+                    s.num
+                  )}
+                </div>
+                <span
+                  className={cn(
+                    "text-[10px] uppercase tracking-wider font-bold transition-colors duration-300",
+                    step === s.id ? "text-primary" : "text-muted-foreground"
+                  )}
+                >
+                  {s.label}
+                </span>
+              </div>
+              {idx < 2 && (
+                <div className="h-[2px] flex-1 bg-muted-foreground/20 mx-2 -mt-4" />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
           {step === "plan" && (
             <>
               <DialogTitle className="text-2xl">Pick your plan</DialogTitle>
@@ -341,16 +506,34 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
                       <FormItem>
                         <FormLabel>Billing email *</FormLabel>
                         <FormControl>
-                          <Input
-                            type="email"
-                            placeholder="admin@hospital.co.ke"
-                            autoComplete="email"
-                            {...field}
-                          />
+                          <div className="relative">
+                            <Input
+                              placeholder="admin@hospital.co.ke"
+                              className="pr-10"
+                              {...field}
+                              onChange={(e) => {
+                                field.onChange(e);
+                                setEmailInput(e.target.value);
+                              }}
+                            />
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
+                              {isCheckingEmail ? (
+                                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                              ) : debouncedEmail && emailStatus?.available === true ? (
+                                <CheckCircle2 className="h-4 w-4 text-green-500" />
+                              ) : debouncedEmail && emailStatus?.available === false ? (
+                                <XCircle className="h-4 w-4 text-destructive" />
+                              ) : null}
+                            </div>
+                          </div>
                         </FormControl>
+                        {emailStatus?.available === false && (
+                          <p className="text-[10px] text-destructive font-medium mt-1">
+                            This email is already registered to another hospital account.
+                          </p>
+                        )}
                         <p className="text-xs text-muted-foreground mt-1">
-                          This email links your payment to your hospital
-                          account.
+                          This email links your payment to your hospital account.
                         </p>
                         <FormMessage />
                       </FormItem>
@@ -381,7 +564,13 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
                     ) : (
                       <span className="hidden sm:block" />
                     )}
-                    <Button type="submit" size="lg" className="w-full sm:w-auto">
+                    <Button 
+                      type="submit" 
+                      size="lg" 
+                      className="w-full sm:w-auto"
+                      disabled={isInitializing || emailStatus?.available === false}
+                    >
+                      {isInitializing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       Pay {formatKES(plan.price)}
                       <ArrowRight className="h-4 w-4 ml-2" />
                     </Button>
@@ -439,12 +628,30 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
                         <FormItem>
                           <FormLabel>Username *</FormLabel>
                           <FormControl>
-                            <Input
-                              placeholder="admin.knh"
-                              autoComplete="username"
-                              {...field}
-                            />
+                            <div className="relative">
+                              <Input
+                                placeholder="admin.knh"
+                                autoComplete="username"
+                                {...field}
+                              />
+                              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
+                                {isCheckingUsername && (
+                                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                                )}
+                                {!isCheckingUsername && debouncedUsername.length >= 3 && availability?.available && (
+                                  <CheckCircle2 className="h-4 w-4 text-green-500" />
+                                )}
+                                {!isCheckingUsername && debouncedUsername.length >= 3 && availability?.available === false && (
+                                  <XCircle className="h-4 w-4 text-destructive" />
+                                )}
+                              </div>
+                            </div>
                           </FormControl>
+                          {debouncedUsername.length >= 3 && availability?.available === false && (
+                            <p className="text-[10px] font-medium text-destructive mt-1">
+                              This username is already taken.
+                            </p>
+                          )}
                           <FormMessage />
                         </FormItem>
                       )}
@@ -456,12 +663,26 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
                         <FormItem>
                           <FormLabel>Password *</FormLabel>
                           <FormControl>
-                            <Input
-                              type="password"
-                              placeholder="At least 8 characters"
-                              autoComplete="new-password"
-                              {...field}
-                            />
+                            <div className="relative">
+                              <Input
+                                type={showPassword ? "text" : "password"}
+                                placeholder="At least 8 characters"
+                                autoComplete="new-password"
+                                className="pr-10"
+                                {...field}
+                              />
+                              <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                              >
+                                {showPassword ? (
+                                  <EyeOff className="h-4 w-4" />
+                                ) : (
+                                  <Eye className="h-4 w-4" />
+                                )}
+                              </button>
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -469,18 +690,16 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
                     />
                   </div>
 
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input value={email} readOnly disabled className="pr-9" />
-                        <Lock className="h-3.5 w-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                      </div>
-                    </FormControl>
+                  <div className="space-y-2">
+                    <Label>Email</Label>
+                    <div className="relative">
+                      <Input value={email} readOnly disabled className="pr-9" />
+                      <Lock className="h-3.5 w-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    </div>
                     <p className="text-xs text-muted-foreground mt-1">
                       Linked to your payment.
                     </p>
-                  </FormItem>
+                  </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <FormField

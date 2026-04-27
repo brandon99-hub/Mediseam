@@ -1,13 +1,20 @@
 import nodemailer from "nodemailer";
 import { logger } from "./logger";
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+function getTransporter() {
+  const user = process.env.EMAIL_USER;
+  const pass = process.env.EMAIL_PASS;
+
+  if (!user || !pass) {
+    logger.error("Email credentials missing in environment variables");
+    throw new Error("Email configuration error");
+  }
+
+  return nodemailer.createTransport({
+    service: "gmail",
+    auth: { user, pass },
+  });
+}
 
 export async function sendContactEmail(data: {
   name: string;
@@ -41,7 +48,7 @@ export async function sendContactEmail(data: {
   };
 
   try {
-    await transporter.sendMail(mailOptions);
+    await getTransporter().sendMail(mailOptions);
     logger.info({ email: data.email }, "Contact email sent successfully");
   } catch (error) {
     logger.error({ error, email: data.email }, "Error sending contact email");
@@ -80,7 +87,7 @@ export async function sendHospitalSignupNotification(data: {
   };
 
   try {
-    await transporter.sendMail(mailOptions);
+    await getTransporter().sendMail(mailOptions);
     logger.info({ hospital: data.hospitalName }, "Hospital signup notification sent");
   } catch (error) {
     logger.error({ error, hospital: data.hospitalName }, "Error sending hospital signup notification");

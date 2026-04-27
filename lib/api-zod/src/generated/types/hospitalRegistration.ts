@@ -15,4 +15,5 @@ export interface HospitalRegistration {
   licenseNumber?: string;
   email: string;
   plan?: string;
+  trxref: string;
 }
