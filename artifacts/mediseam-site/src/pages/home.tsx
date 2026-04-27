@@ -88,7 +88,7 @@ export default function Home() {
               </motion.div>
 
               <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl font-bold tracking-tight text-foreground mb-6 max-w-4xl text-balance">
-                What if the doctor already knew your story?
+                What if your doctor already knew your story?
               </motion.h1>
 
               <motion.p variants={fadeInUp} className="text-2xl md:text-3xl font-medium text-foreground/80 mb-8 max-w-2xl text-balance">
