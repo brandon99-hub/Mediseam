@@ -7,7 +7,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <img src="/Logo-2.png" alt="MediSeam Logo" className="h-12 w-auto object-contain brightness-0 invert" />
+              <img src="/Logo-2.png" alt="MediSeam Healthcare Limited logo." className="h-12 w-auto object-contain brightness-0 invert" />
             </Link>
             <p className="text-background/70 text-lg max-w-sm">
               Your records everywhere you go.

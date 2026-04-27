@@ -37,7 +37,7 @@ export function Navbar() {
         <Link href="/" className="relative flex items-center gap-2 group h-full overflow-visible">
           <img 
             src="/Logo-2.png" 
-            alt="MediSeam Logo" 
+            alt="MediSeam Healthcare Limited logo." 
             className={cn(
               "absolute left-0 w-auto object-contain drop-shadow-lg transition-all duration-500 max-w-none",
               scrolled ? "h-10 top-2" : "h-24 top-0"

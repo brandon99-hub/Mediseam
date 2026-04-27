@@ -1,4 +1,4 @@
-import { usePageTitle } from "@/hooks/use-page-title";
+import { useSEO } from "@/hooks/use-seo";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -26,7 +26,10 @@ const formSchema = z.object({
 });
 
 export default function Contact() {
-  usePageTitle("Contact — MediSeam");
+  useSEO(
+    "Contact MediSeam | Kenya Healthcare Interoperability",
+    "Get in touch with MediSeam Healthcare Limited. Hospital partnerships, investor enquiries, and general questions — we respond within 24 hours."
+  );
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({

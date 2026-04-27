@@ -1,4 +1,4 @@
-import { usePageTitle } from "@/hooks/use-page-title";
+import { useSEO } from "@/hooks/use-seo";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -44,7 +44,11 @@ function CountUp({
 }
 
 export default function Home() {
-  usePageTitle("MediSeam — Your records, everywhere you go.");
+  useSEO(
+    "MediSeam | Patient-Controlled Health Records Kenya",
+    "MediSeam gives every Kenyan patient one secure digital health record that follows them to any hospital. Patient-owned. Blockchain-verified. Built for Kenya."
+  );
+
 
   const scrollToHowItWorks = () => {
     document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
@@ -84,7 +88,7 @@ export default function Home() {
               </motion.div>
               
               <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl font-bold tracking-tight text-foreground mb-6 max-w-4xl text-balance">
-                What if your doctor already knew your story?
+                Your records, everywhere you go.
               </motion.h1>
               
               <motion.p variants={fadeInUp} className="text-2xl md:text-3xl font-medium text-foreground/80 mb-8 max-w-2xl text-balance">

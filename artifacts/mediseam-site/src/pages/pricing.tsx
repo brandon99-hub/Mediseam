@@ -1,4 +1,4 @@
-import { usePageTitle } from "@/hooks/use-page-title";
+import { useSEO } from "@/hooks/use-seo";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,10 @@ import { cn } from "@/lib/utils";
 import { GetStartedFlow } from "@/components/get-started-flow";
 
 export default function Pricing() {
-  usePageTitle("Pricing — MediSeam");
+  useSEO(
+    "MediSeam Pricing | Hospital Health Data Plans Kenya",
+    "Transparent monthly plans for clinics and hospitals across Kenya. Unlimited patients on every tier. Connect your facility to MediSeam from KES 30,000 per month."
+  );
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
