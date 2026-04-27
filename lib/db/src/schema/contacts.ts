@@ -15,5 +15,5 @@ export const contactSubmissions = pgTable("contact_submissions", {
 export const insertContactSubmissionSchema = createInsertSchema(contactSubmissions);
 export const selectContactSubmissionSchema = createSelectSchema(contactSubmissions);
 
-export type ContactSubmission = z.infer<typeof selectContactSubmissionSchema>;
-export type NewContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
+export type ContactSubmission = typeof contactSubmissions.$inferSelect;
+export type NewContactSubmission = typeof contactSubmissions.$inferInsert;

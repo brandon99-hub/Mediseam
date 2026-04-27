@@ -13,5 +13,5 @@ export const hospitals = pgTable("hospitals", {
 export const insertHospitalSchema = createInsertSchema(hospitals);
 export const selectHospitalSchema = createSelectSchema(hospitals);
 
-export type Hospital = z.infer<typeof selectHospitalSchema>;
-export type NewHospital = z.infer<typeof insertHospitalSchema>;
+export type Hospital = typeof hospitals.$inferSelect;
+export type NewHospital = typeof hospitals.$inferInsert;
