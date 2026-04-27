@@ -42,10 +42,11 @@ const staticPath = path.resolve(__dirname, "../../mediseam-site/dist/public");
 app.use(express.static(staticPath));
 
 // Handle SPA routing - serve index.html for all non-api routes
-app.get("*", (req, res) => {
-  if (!req.path.startsWith("/api")) {
-    res.sendFile(path.join(staticPath, "index.html"));
+app.get("(.*)", (req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    return next();
   }
+  res.sendFile(path.join(staticPath, "index.html"));
 });
 
 export default app;
