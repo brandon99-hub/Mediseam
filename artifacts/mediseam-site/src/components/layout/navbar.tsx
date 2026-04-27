@@ -40,7 +40,7 @@ export function Navbar() {
             alt="MediSeam Healthcare Limited logo." 
             className={cn(
               "absolute left-0 w-auto object-contain drop-shadow-lg transition-all duration-500 max-w-none",
-              scrolled ? "h-10 top-2" : "h-24 top-0"
+              scrolled ? "h-16 top-0" : "h-24 top-0"
             )} 
           />
         </Link>
@@ -62,7 +62,7 @@ export function Navbar() {
         </nav>
 
         <div className="hidden md:flex items-center">
-          <GetStartedFlow trigger={<Button>Get Started</Button>} />
+          <GetStartedFlow trigger={<Button className="transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30">Get Started</Button>} />
         </div>
 
         {/* Mobile Nav */}

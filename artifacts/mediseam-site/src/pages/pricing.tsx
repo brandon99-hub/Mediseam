@@ -271,9 +271,9 @@ export default function Pricing() {
             <h2 className="text-3xl font-bold mb-8 text-center">Frequently asked questions</h2>
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
-                <AccordionTrigger className="text-left text-lg font-medium">Is patient volume really unlimited?</AccordionTrigger>
+                <AccordionTrigger className="text-left text-lg font-medium">How much does it cost for patients to create an account?</AccordionTrigger>
                 <AccordionContent className="text-base text-muted-foreground leading-relaxed">
-                  Yes. We do not believe your pricing should punish you for caring for more people. Every plan covers every patient you see at no additional cost.
+                  Patient account creation is completely free. Patients do not pay for anything to create an account, manage their health identity, or share their records.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">

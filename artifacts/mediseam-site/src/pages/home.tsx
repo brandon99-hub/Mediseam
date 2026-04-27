@@ -103,7 +103,7 @@ export default function Home() {
               <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                 <GetStartedFlow
                   trigger={
-                    <Button size="lg" className="text-base h-12 px-8">
+                    <Button size="lg" className="text-base h-12 px-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30">
                       Get Started
                     </Button>
                   }
@@ -132,8 +132,8 @@ export default function Home() {
               variants={staggerContainer}
               className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 lg:gap-16"
             >
-              <motion.div variants={fadeInUp} className="flex flex-col items-start group">
-                <div className="h-14 w-14 rounded-xl bg-secondary flex items-center justify-center text-primary mb-6 transition-transform group-hover:scale-110 duration-300">
+              <motion.div variants={fadeInUp} className="bg-background border border-border rounded-2xl p-8 flex flex-col items-start group shadow-sm hover:shadow-md transition-shadow">
+                <div className="h-14 w-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6 transition-transform group-hover:scale-110 duration-300">
                   <Shield className="h-7 w-7" />
                 </div>
                 <h3 className="text-2xl font-bold mb-4">You own your records</h3>
@@ -143,8 +143,8 @@ export default function Home() {
                 </p>
               </motion.div>
 
-              <motion.div variants={fadeInUp} className="flex flex-col items-start group">
-                <div className="h-14 w-14 rounded-xl bg-secondary flex items-center justify-center text-primary mb-6 transition-transform group-hover:scale-110 duration-300">
+              <motion.div variants={fadeInUp} className="bg-background border border-border rounded-2xl p-8 flex flex-col items-start group shadow-sm hover:shadow-md transition-shadow">
+                <div className="h-14 w-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6 transition-transform group-hover:scale-110 duration-300">
                   <Globe className="h-7 w-7" />
                 </div>
                 <h3 className="text-2xl font-bold mb-4">Works everywhere</h3>
@@ -154,8 +154,8 @@ export default function Home() {
                 </p>
               </motion.div>
 
-              <motion.div variants={fadeInUp} className="flex flex-col items-start group">
-                <div className="h-14 w-14 rounded-xl bg-secondary flex items-center justify-center text-primary mb-6 transition-transform group-hover:scale-110 duration-300">
+              <motion.div variants={fadeInUp} className="bg-background border border-border rounded-2xl p-8 flex flex-col items-start group shadow-sm hover:shadow-md transition-shadow">
+                <div className="h-14 w-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6 transition-transform group-hover:scale-110 duration-300">
                   <Eye className="h-7 w-7" />
                 </div>
                 <h3 className="text-2xl font-bold mb-4">Nothing is hidden</h3>
@@ -169,7 +169,7 @@ export default function Home() {
         </section>
 
         {/* Big Statement Section */}
-        <section className="relative overflow-hidden bg-[hsl(171_50%_25%)] text-primary-foreground">
+        <section className="relative overflow-hidden bg-[linear-gradient(135deg,hsl(var(--secondary-foreground))_50%,hsl(var(--primary))_50%)] text-primary-foreground">
           {/* Soft radial wash */}
           <div
             aria-hidden
@@ -439,7 +439,7 @@ export default function Home() {
               </h2>
               <GetStartedFlow
                 trigger={
-                  <Button size="lg" className="text-lg h-14 px-10 rounded-full">
+                  <Button size="lg" className="text-lg h-14 px-10 rounded-full transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30">
                     Get Started
                   </Button>
                 }
