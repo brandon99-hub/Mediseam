@@ -368,7 +368,7 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
                 </div>
                 <span
                   className={cn(
-                    "text-[10px] uppercase tracking-wider font-bold transition-colors duration-300",
+                    "text-[10px] uppercase tracking-wider font-bold transition-colors duration-300 hidden sm:block",
                     step === s.id ? "text-primary" : "text-muted-foreground"
                   )}
                 >
@@ -427,8 +427,8 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
                   type="button"
                   onClick={() => handleSelectPlan(p.id)}
                   className={cn(
-                    "group relative flex items-start justify-between gap-4 rounded-xl border border-border p-4 text-left transition-colors hover-elevate active-elevate-2",
-                    p.popular && "border-primary/40",
+                    "group relative flex items-start justify-between gap-4 rounded-xl border border-border p-4 text-left transition-all duration-300 hover-elevate active-tactile",
+                    p.popular && "border-primary/40 bg-primary/[0.02]",
                   )}
                 >
                   <div className="flex-1">
@@ -567,7 +567,7 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
                     <Button 
                       type="submit" 
                       size="lg" 
-                      className="w-full sm:w-auto"
+                      className="w-full sm:w-auto hover-elevate active-tactile"
                       disabled={isInitializing || emailStatus?.available === false}
                     >
                       {isInitializing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -763,7 +763,12 @@ export function GetStartedFlow({ trigger, defaultPlanId }: GetStartedFlowProps) 
                     >
                       <ArrowLeft className="h-4 w-4 mr-2" /> Back
                     </Button>
-                    <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={isPending}>
+                    <Button 
+                      type="submit" 
+                      size="lg" 
+                      className="w-full sm:w-auto hover-elevate active-tactile" 
+                      disabled={isPending}
+                    >
                       {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       Create hospital account
                     </Button>

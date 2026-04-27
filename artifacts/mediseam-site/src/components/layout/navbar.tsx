@@ -39,8 +39,8 @@ export function Navbar() {
             src="/Logo-2.png" 
             alt="MediSeam Healthcare Limited logo." 
             className={cn(
-              "absolute left-0 w-auto object-contain drop-shadow-lg transition-all duration-500 max-w-none",
-              scrolled ? "h-16 top-0" : "h-24 top-0"
+              "relative w-auto object-contain drop-shadow-lg transition-all duration-500",
+              scrolled ? "h-10 md:h-12" : "h-16 md:h-20"
             )} 
           />
         </Link>
@@ -65,8 +65,8 @@ export function Navbar() {
           <GetStartedFlow trigger={<Button className="transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30">Get Started</Button>} />
         </div>
 
-        {/* Mobile Nav */}
-        <div className="md:hidden flex items-center">
+        {/* Mobile Nav - Hidden in favor of Floating Nav */}
+        <div className="hidden">
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="h-9 w-9">

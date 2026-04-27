@@ -20,7 +20,7 @@ function CountUp({
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-20px" });
   const count = useMotionValue(0);
   const formatted = useTransform(
     count,
@@ -80,30 +80,30 @@ export default function Home() {
               initial="hidden"
               animate="visible"
               variants={staggerContainer}
-              className="flex flex-col items-center"
+              className="flex flex-col items-center text-center"
             >
-              <motion.div variants={fadeInUp} className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium mb-6 bg-secondary/50 text-secondary-foreground">
+              <motion.div variants={fadeInUp} className="inline-flex items-center rounded-full border px-3 py-1 text-[11px] md:text-sm font-medium mb-8 bg-secondary/50 text-secondary-foreground">
                 <span className="flex h-2 w-2 rounded-full bg-accent mr-2"></span>
                 The new standard for Kenyan healthcare
               </motion.div>
 
-              <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl font-bold tracking-tight text-foreground mb-6 max-w-4xl text-balance">
+              <motion.h1 variants={fadeInUp} className="text-4xl md:text-7xl font-bold tracking-tight text-foreground mb-6 max-w-4xl text-balance leading-[1.2]">
                 What if your doctor already knew your story?
               </motion.h1>
 
-              <motion.p variants={fadeInUp} className="text-2xl md:text-3xl font-medium text-foreground/80 mb-8 max-w-2xl text-balance">
+              <motion.p variants={fadeInUp} className="text-xl md:text-3xl font-medium text-foreground/80 mb-8 max-w-2xl text-balance">
                 Your records, everywhere you go.
               </motion.p>
 
-              <motion.p variants={fadeInUp} className="text-lg text-muted-foreground mb-12 max-w-3xl leading-relaxed text-balance">
+              <motion.p variants={fadeInUp} className="hidden md:block text-lg text-muted-foreground mb-12 max-w-3xl leading-relaxed text-balance">
                 Every time you visit a new hospital you start from scratch. Your history stays behind.
                 MediSeam changes that. One secure health identity that follows you everywhere you go.
               </motion.p>
 
-              <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+              <motion.div variants={fadeInUp} className="flex flex-row items-center justify-center gap-3 w-full sm:w-auto mt-4">
                 <GetStartedFlow
                   trigger={
-                    <Button size="lg" className="text-base h-12 px-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30">
+                    <Button size="lg" className="flex-1 sm:flex-initial text-sm md:text-base h-11 md:h-12 px-6 md:px-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30">
                       Get Started
                     </Button>
                   }
@@ -111,10 +111,11 @@ export default function Home() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="text-base h-12 px-8 group"
+                  className="flex-1 sm:flex-initial text-sm md:text-base h-11 md:h-12 px-4 md:px-8 group"
                   onClick={scrollToHowItWorks}
                 >
-                  See How It Works
+                  <span className="hidden sm:inline">See How It Works</span>
+                  <span className="sm:hidden">How it works</span>
                   <ChevronDown className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
                 </Button>
               </motion.div>
@@ -311,7 +312,7 @@ export default function Home() {
                 </Button>
               </motion.div>
               <motion.div
-                className="flex-1 w-full aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden relative border border-border"
+                className="hidden md:block flex-1 w-full aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden relative border border-border"
                 style={{
                   background:
                     "radial-gradient(ellipse at center, hsl(var(--secondary)) 0%, hsl(var(--background)) 75%)",

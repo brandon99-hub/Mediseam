@@ -6,6 +6,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Pricing from "@/pages/pricing";
 import Contact from "@/pages/contact";
+import { FloatingNav } from "@/components/layout/floating-nav";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ function App() {
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
           <Router />
+          <FloatingNav />
         </WouterRouter>
         <Toaster />
       </TooltipProvider>
